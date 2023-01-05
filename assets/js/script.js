@@ -23,40 +23,40 @@ urlencoded.append("client_secret", "1ec45ae9502c46db84bf1df9f682dd3e");
 
 
 
-function getAccessToken(){
-    var accessToken = '';
-    fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-          },
-        body: urlencoded
-    }).then(function(response) {
-        return response.json()
-    }).then(function(data) {
-        console.log('data', data);
-        return accessToken = data;
+function getAccessToken() {
+    return fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: urlencoded,
     })
-    console.log('access', accessToken)
-    return accessToken;
-}
-
-function getArtists() {
-    var artist = 'drake';
-    var access = getAccessToken();
-    console.log('cheese', access.access_token);
-    fetch(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
-        method: 'GET',
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        return data.access_token;
+      });
+  }
+  
+  function getArtists() {
+    var artist = "drake";
+    getAccessToken().then((token) => {
+      fetch(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json', 
-            'Authorization': `Bearer ${access.access_token}`
-        }
-    }).then(function(response) {
-        return response.json()
-    }).then(function(data) {
-        console.log(data);
-    
-    })
-}
-
-getArtists();
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+          return data;
+        });
+    });
+  }
+  
+  getArtists();
