@@ -37,9 +37,31 @@ function getAccessToken() {
       .then(function (data) {
         return data.access_token;
       });
-  }
+}
   
-  function getArtists() {
+function getTracks(id, token) {
+    var artistID = id;
+    fetch(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?market=GB`, {
+      method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+    }).then(function(response) {
+      return response.json();
+    }).then(function(data) {
+      console.log('get tracks', data);
+
+      console.log('get image', data.tracks[0].album.images[1]);
+
+      // For loop starts here:
+
+      return data;
+    })
+}
+  
+
+function getArtists() {
     var artist = "drake";
     getAccessToken().then((token) => {
       fetch(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
@@ -53,10 +75,26 @@ function getAccessToken() {
           return response.json();
         })
         .then(function (data) {
-          console.log(data);
-          return data;
+          console.log('get artists', data);
+
+          console.log('id', data.artists.items[0].id);
+          var artistNameID = data.artists.items[0].id;
+
+
+          console.log('name', data.artists.items[0].name);
+
+
+          // return data;
+
+          getTracks(artistNameID, token);
         });
     });
-  }
+}
   
-  getArtists();
+getArtists();
+
+
+
+// Get info:
+// data.tracks[0].album.images[1] OR data.tracks.0.album.images[1]
+// 
