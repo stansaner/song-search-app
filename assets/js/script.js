@@ -22,6 +22,26 @@ urlencoded.append("client_secret", "1ec45ae9502c46db84bf1df9f682dd3e");
 // })
 
 
+function getQRCode(){
+  var data = "https://api-ninjas.com";
+  var fmt = "png";
+  $.ajax({
+    method: "GET",
+    url: "https://api.api-ninjas.com/v1/qrcode?data=" + data + "&format=" + fmt,
+    headers: {
+      "X-Api-Key": "ZdYI+Lj/vMMSzi+ktewh/w==89dSZH02W3eHyFfr",
+      Accept: "image/png",
+    },
+    contentType: "application/json",
+    success: function (result) {
+      console.log('QR result', result);
+    },
+    error: function ajaxError(jqXHR) {
+      console.error("Error: ", jqXHR.responseText);
+    },
+  });
+}
+
 
 function getAccessToken() {
     return fetch("https://accounts.spotify.com/api/token", {
@@ -38,6 +58,7 @@ function getAccessToken() {
         return data.access_token;
       });
 }
+
   
 function getTracks(id, token) {
     var artistID = id;
@@ -93,8 +114,33 @@ function getArtists() {
   
 getArtists();
 
+getQRCode();
+
+
 
 
 // Get info:
 // data.tracks[0].album.images[1] OR data.tracks.0.album.images[1]
 // 
+
+
+
+/////qr-code  //
+//https://api-ninjas.com/api/qrcode////
+// var data = "https://api-ninjas.com";
+// var fmt = "jpg";
+// $.ajax({
+//   method: "GET",
+//   url: "https://api.api-ninjas.com/v1/qrcode?data=" + data + "&format=" + fmt,
+//   headers: {
+//     "X-Api-Key": "ZdYI+Lj/vMMSzi+ktewh/w==89dSZH02W3eHyFfr",
+//     Accept: "image/png",
+//   },
+//   contentType: "application/json",
+//   success: function (result) {
+//     console.log(result);
+//   },
+//   error: function ajaxError(jqXHR) {
+//     console.error("Error: ", jqXHR.responseText);
+//   },
+// });
