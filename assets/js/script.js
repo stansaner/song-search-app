@@ -8,6 +8,7 @@ urlencoded.append("client_secret", "1ec45ae9502c46db84bf1df9f682dd3e");
 var searchInput = $(".form-input");
 var searchButton = $(".search-button");
 var jumbotron = $("#display-artist");
+var displayCards = $('#display-songs');
 
 // This function will bring up a QR code which will link to a google search
 // of the artist as per user input
@@ -72,16 +73,34 @@ function getTracks(id, token, artistName) {
     .then(function (data) {
       console.log("get tracks", data);
 
-      console.log("get image", data.tracks[0].album.images[1]);
-      console.log("album name", data.tracks[0].album.name);
-      console.log("song name", data.tracks[0].name);
-
+      
       // For loop starts here:
+      var trackArray = data.tracks;
+      // console.log('track array', trackArray);
+      
+      for(var track = 0; track < trackArray.length; track++) {
+
+        var trackImage = data.tracks[track].album.images[1].url;
+        console.log("get image", data.tracks[track].album.images[1]);
+  
+        var trackAlbum = data.tracks[track].album.name;
+        console.log("album name", data.tracks[track].album.name);
+  
+        var trackName = data.tracks[track].name;
+        console.log("song name", data.tracks[track].name);
+        displayCards.append(`
+        <div class="song-card" style="background-image: url(${trackImage});">
+          <h3>${trackName}</h3>
+          <p>Album: ${trackAlbum}</p>
+        </div> 
+        `)
+      }
 
       getQRCode(artistName);
       return data;
     });
 }
+
 
 // 2 step process
 // Step 1: obtain artist id
