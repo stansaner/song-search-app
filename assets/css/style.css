@@ -1,0 +1,49 @@
+/* RESETS */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+/* CUSTOM STYLES */
+.spotify-header{
+    /* background-color: #1DB954; */
+    background-color: #191414;
+}
+
+.container-fluid h2, .container-fluid input, .container-fluid button{
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.container-fluid h2{
+    font-size: 16px;
+}
+
+.search-button{
+    height: 35px;
+    border-radius: 15px;
+}
+
+.search-button{
+    /* background-color: #191414; */
+    background-color: #1DB954;
+}
+
+input{
+    height: 32px;
+    padding: 8px;
+    border-radius: 15px;
+    border-color: #D3D3D3;
+    border-width: 1.5px;
+}
+
+.form-input{
+    font-size: 14px;
+    padding-left: 13px;
+}
