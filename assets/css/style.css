@@ -11,7 +11,8 @@ html, body {
 
 /* CUSTOM STYLES */
 .spotify-header{
-    background-color: #1DB954;
+    /* background-color: #1DB954; */
+    background-color: #191414;
 }
 
 .container-fluid h2, .container-fluid input, .container-fluid button{
@@ -30,7 +31,8 @@ html, body {
 }
 
 .search-button{
-    background-color: #191414;
+    /* background-color: #191414; */
+    background-color: #1DB954;
 }
 
 input{
