@@ -6,7 +6,8 @@ urlencoded.append("grant_type", "client_credentials");
 urlencoded.append("client_id", "3903dc1b09cd47ae8c1bfb4990969b30");
 urlencoded.append("client_secret", "1ec45ae9502c46db84bf1df9f682dd3e");
 var searchInput = $(".form-input");
-var searchButton = $('.search-button');
+var searchButton = $(".search-button");
+var jumbotron = $("#display-artist");
 
 // This function will bring up a QR code which will link to a google search
 // of the artist as per user input
@@ -90,9 +91,9 @@ function getArtists(event) {
   var artist = "";
 
   // var keyCode = event.keyCode;
-  console.log('event', event);
+  console.log("event", event);
   var artist = searchInput.val().trim();
-  console.log('search input', artist);
+  console.log("search input", artist);
 
   if (artist) {
     getAccessToken().then((token) => {
@@ -113,6 +114,21 @@ function getArtists(event) {
           var artistNameID = data.artists.items[0].id;
 
           console.log("name", data.artists.items[0].name);
+
+          var artistImage = data.artists.items[0].images[1].url;
+          console.log('artist image', artistImage);
+
+          var genre = data.artists.items[0].genres[0];
+          console.log('genre', genre);
+
+          //Add artist name, genre and image in jumbotron
+          jumbotron.append(`
+          <div class="jumbotron">
+            <h1 class="display-4">${artist}</h1>
+            <img src=${artistImage}>
+            <p>${genre}</p>
+          </div>
+          `);
 
           getTracks(artistNameID, token, artist);
         });
@@ -141,7 +157,7 @@ function getArtists(event) {
 function init() {
   // searchInput.keydown(getArtists);
   searchButton.click(getArtists);
-  console.log('start point');
+  console.log("start point");
 }
 
 init();
