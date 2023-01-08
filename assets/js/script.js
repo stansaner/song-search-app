@@ -74,6 +74,12 @@ function getTracks(id, token, artistName) {
       console.log("get tracks", data);
 
       
+      displayCards.append(`
+      <h3 class="d-flex flex-wrap">Top Tracks</h3>
+      <div class="display-songs d-flex flex row">
+      </div>
+      `)
+
       // For loop starts here:
       var trackArray = data.tracks;
       // console.log('track array', trackArray);
@@ -89,12 +95,17 @@ function getTracks(id, token, artistName) {
         var trackName = data.tracks[track].name;
         console.log("song name", data.tracks[track].name);
         displayCards.append(`
-        <div class="song-card" style="background-image: url(${trackImage});">
-          <h3>${trackName}</h3>
-          <p>Album: ${trackAlbum}</p>
+        <div class="song-card shadow=lg p-3 rb-5 rounded">
+          <img class="song-image card-img-top src=url(${trackImage})>
+          <div class="card-body">
+            <h3>${trackName}</h3>
+            <p>Album: ${trackAlbum}</p>
+          </div>
         </div> 
         `)
+
       }
+
 
       getQRCode(artistName);
       return data;
@@ -107,7 +118,7 @@ function getTracks(id, token, artistName) {
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event) {
-  var artist = "";
+  var artist = '';
 
   // var keyCode = event.keyCode;
   console.log("event", event);
@@ -142,10 +153,12 @@ function getArtists(event) {
 
           //Add artist name, genre and image in jumbotron
           jumbotron.append(`
-          <div class="jumbotron">
-            <h1 class="display-4">${artist}</h1>
-            <img src=${artistImage}>
-            <p>${genre}</p>
+          <div class="mt-3 jumbotron jumbotron-fluid p-4">
+            <div class="container">
+              <h1 class="display-4 row">${artist}</h1>
+              <img class="row artist-image" src=${artistImage}>
+              <p class="row artist-genre">${genre}</p>
+            </div>
           </div>
           `);
 

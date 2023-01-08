@@ -28,10 +28,6 @@ html, body {
 .search-button{
     height: 35px;
     border-radius: 15px;
-}
-
-.search-button{
-    /* background-color: #191414; */
     background-color: #1DB954;
 }
 
@@ -46,4 +42,12 @@ input{
 .form-input{
     font-size: 14px;
     padding-left: 13px;
+}
+
+.song-card{
+    /* background-position: center;
+    background-size: cover; */
+    background-repeat: no-repeat;
+    /* height: 200px;
+    width: 200px; */
 }
