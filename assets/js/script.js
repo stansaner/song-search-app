@@ -60,6 +60,7 @@ function getAccessToken() {
 // using the artist id to get the top tracks
 function getTracks(id, token, artistName) {
   var artistID = id;
+  displayCards.html('');
   fetch(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?market=GB`, {
     method: "GET",
     headers: {
@@ -124,6 +125,7 @@ function getArtists(event) {
   console.log("event", event);
   var artist = searchInput.val().trim();
   console.log("search input", artist);
+  jumbotron.html('');
 
   if (artist) {
     getAccessToken().then((token) => {
