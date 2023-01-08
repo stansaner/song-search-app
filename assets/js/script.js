@@ -8,7 +8,7 @@ urlencoded.append("client_secret", "1ec45ae9502c46db84bf1df9f682dd3e");
 var searchInput = $(".form-input");
 var searchButton = $(".search-button");
 var jumbotron = $("#display-artist");
-var displayCards = $('#display-songs');
+var displayCards = $("#display-songs");
 
 // This function will bring up a QR code which will link to a google search
 // of the artist as per user input
@@ -73,52 +73,60 @@ function getTracks(id, token, artistName) {
     .then(function (data) {
       console.log("get tracks", data);
 
-      
       displayCards.append(`
       <h3 class="d-flex flex-wrap">Top Tracks</h3>
       <div class="display-songs d-flex flex row">
       </div>
-      `)
+      `);
 
       // For loop starts here:
       var trackArray = data.tracks;
       // console.log('track array', trackArray);
-      
-      for(var track = 0; track < trackArray.length; track++) {
 
+      for (var track = 0; track < trackArray.length; track++) {
         var trackImage = data.tracks[track].album.images[1].url;
         console.log("get image", data.tracks[track].album.images[1]);
-  
+
         var trackAlbum = data.tracks[track].album.name;
         console.log("album name", data.tracks[track].album.name);
-  
+
         var trackName = data.tracks[track].name;
         console.log("song name", data.tracks[track].name);
+
+        var previewURL = data.tracks[track].preview_url;
+        console.log("song id", data.tracks[track].preview_url);
+
+        var fullSong = data.tracks[track].uri;
+        console.log("full song", fullSong);
+
         displayCards.append(`
         <div class="song-card shadow=lg p-3 rb-5 rounded">
-          <img class="song-image card-img-top src=url(${trackImage})>
-          <div class="card-body">
-            <h3>${trackName}</h3>
-            <p>Album: ${trackAlbum}</p>
+        <img class="song-image card-img-top src=${trackImage}>
+        <div class="card-body">
+          <h3>${trackName}</h3>
+          <p>Album: ${trackAlbum}</p>
+          <a href="${previewURL}" target="_blank">
+          Preview ${trackName}
+          </a>
+          <a href="${fullSong}" target="_blank">
+          Listen in Spotify
+          </a>
           </div>
         </div> 
-        `)
-
+        `);
       }
-
 
       getQRCode(artistName);
       return data;
     });
 }
 
-
 // 2 step process
 // Step 1: obtain artist id
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event) {
-  var artist = '';
+  var artist = "";
 
   // var keyCode = event.keyCode;
   console.log("event", event);
@@ -146,10 +154,10 @@ function getArtists(event) {
           console.log("name", data.artists.items[0].name);
 
           var artistImage = data.artists.items[0].images[1].url;
-          console.log('artist image', artistImage);
+          console.log("artist image", artistImage);
 
           var genre = data.artists.items[0].genres[0];
-          console.log('genre', genre);
+          console.log("genre", genre);
 
           //Add artist name, genre and image in jumbotron
           jumbotron.append(`
