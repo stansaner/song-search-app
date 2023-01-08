@@ -100,21 +100,19 @@ function getTracks(id, token, artistName) {
         console.log("full song", fullSong);
 
         displayCards.append(`
-        <div class="song-card shadow=lg p-3 rb-5 rounded">
-        <img class="song-image card-img-top src=${trackImage}>
-        <div class="card-body">
-          <h3>${trackName}</h3>
-          <p>Album: ${trackAlbum}</p>
-          <a href="${previewURL}" target="_blank">
-          Preview ${trackName}
-          </a>
-          <a href="${fullSong}" target="_blank">
-          Listen in Spotify
-          </a>
+        <div class="container-card card shadow=lg p-3 rb-5 rounded"
+          <div class="song-card row">
+          <img class="song-image card-img-top" src="${trackImage}">
+          <div class="card-body">
+            <h3>${trackName}</h3>
+            <p>Album: ${trackAlbum}</p>
+            <a class="btn btn-primary" href="${previewURL}" target="_blank">Preview ${trackName}</a>
+            <a class="btn btn-primary" href="${fullSong}" target="_blank"> Listen in Spotify</a>
           </div>
         </div> 
         `);
       }
+
 
       getQRCode(artistName);
       return data;
