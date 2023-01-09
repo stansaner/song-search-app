@@ -162,7 +162,7 @@ function addToSearchHistory(artist) {
 
   //Adding the searched term as a button in search history
   searchHistorySection.append(`
-  <button data-artist="${artist}" type="button" class="artist-search btn btn-dark btn-block">${artist}</button>
+  <button data-artist="${artist}" type="button" class="artist-history btn btn-dark btn-block">${artist}</button>
   `);
 
   //Stringifying searched terms array into a string
@@ -183,20 +183,21 @@ function getPreviouslySearchedTermsFromLocalStorage() {
           `)
       }
   }
-  attachClickEventToPreviousSearchButtons();
+  recallArtist();
 };
 
 //Creating click event for all search history buttons inside #history div
-function attachClickEventToPreviousSearchButtons() {
-  $('#clear-button').on('click', function () {
+function recallArtist() {
+  $('.artist-history').on('click', function () {
       searchInput.val($(this).data('artist')); //repopulating searchInput using data-location attribute
 
       //Removing and adding classes to change the highlighted button colours when selected
-      $('#clear-button').removeClass('btn-info').addClass('btn-dark');
+      $('.artist-history').removeClass('btn-info').addClass('btn-dark');
       $(this).removeClass('btn-dark').addClass('btn-info');
       getArtists();
   });
 }
+
 
 
 // 2 step process
@@ -266,6 +267,7 @@ function init() {
   // searchInput.keydown(getArtists);
   searchButton.click(getArtists);
   clearButton.click(clearPreviousSearch);
+  searchHistorySection.click(recallArtist);
   console.log("start point");
 
   
