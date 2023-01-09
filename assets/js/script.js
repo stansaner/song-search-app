@@ -38,11 +38,9 @@ function getQRCode(artistName) {
       var qrCode = $(".qr-code");
 
       qrCode.append(`
-            <div class="flex">
-                <h4 class="display-4">Scan for Artist</h4>
-               
-               <p><img src="data:image/png;base64,${result}" alt="QR code" /></p>
-               
+            <div class="flex align-items-center">
+               <p class="qr-code"><img src="data:image/png;base64,${result}" alt="QR code" /></p>
+               <p class="qr-text text-center">Scan for more info about ${artistName}</p>
             </div> 
             `);
     },
