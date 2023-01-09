@@ -11,13 +11,14 @@ var jumbotron = $("#display-artist");
 var displayCards = $("#display-songs");
 var songHeading = $(".song-heading");
 var localStorageArray = [];
-var searchHistorySection = $('#search-history')
+var searchHistorySection = $('#search-history');
+var clearButton = $('#clear-button');
 
 
 // Adding the option to clear search history
 function clearPreviousSearch() {
   localStorage.removeItem('artist');
-  searchHistory.empty();
+  searchHistorySection.empty();
 }
 
 
@@ -38,7 +39,7 @@ function getQRCode(artistName) {
 
       qrCode.append(`
             <div class="flex">
-                <h3 class="display-4">QR code</h3>
+                <h4 class="display-4">Scan for Artist</h4>
                
                <p><img src="data:image/png;base64,${result}" alt="QR code" /></p>
                
@@ -85,12 +86,12 @@ function getTracks(id, token, artistName) {
     .then(function (data) {
       console.log("get tracks", data);
 
-      songHeading.prepend(`
+      
+      // songHeading.prepend(`
      
-      <h3 class="d-flex flex-wrap">Top Tracks</h3>
+      // <h3 class="d-flex flex-wrap">Top Tracks</h3>
 
-      `);
-
+      // `);
       // For loop starts here:
       var trackArray = data.tracks;
       // console.log('track array', trackArray);
@@ -118,8 +119,8 @@ function getTracks(id, token, artistName) {
           <div class="card-body">
             <h3>${trackName}</h3>
             <p>Album: ${trackAlbum}</p>
-            <a class="btn btn-primary" href="${previewURL}" target="_blank">Preview ${trackName}</a>
-            <a class="btn btn-primary" href="${fullSong}" target="_blank"> Listen in Spotify</a>
+            <a class="btn btn-primary" href="${previewURL}" target="_blank">Preview Song</a>
+            <a class="btn btn-primary" href="${fullSong}" target="_blank"> Listen on Spotify</a>
           </div>
         </div> 
         `);
@@ -133,7 +134,7 @@ function getTracks(id, token, artistName) {
 
 // Function to add search input to local storage
 function addToSearchHistory(artist) {
-  var searchHistory = searchInput.val(); // Getting the searched artist from the search input
+  var searchHistory = searchInput.val().toLowerCase().trim(); // Getting the searched artist from the search input
 
   if (searchHistory == '') {
     return;
@@ -149,6 +150,7 @@ function addToSearchHistory(artist) {
   // Object {Key: artist, Value: search input string}
   if (localStorage.getItem('artist') == null) {
     localStorageArray.push(searchHistory); //pushing searched term into the array
+
   } else {
     localStorageArray = JSON.parse(localStorage.getItem('artist'));
 
@@ -248,6 +250,9 @@ function getArtists(event) {
             <div class="qr-code col-6">
             </div>
           </div>
+          <div>
+            <h3 class="d-flex flex-wrap">Top Tracks</h3>
+          </div>
           `);
 
           addToSearchHistory(artist);
@@ -257,33 +262,14 @@ function getArtists(event) {
   }
 }
 
-// getArtists();
-
-// getQRCode(artistName);
-// function fetchArtist(event) {
-//   var keyCode = event.keyCode;
-//   var searchText = searchInput.val().trim();
-
-//   if (keyCode === 13 && searchText) {
-//     $.get(`https://www.omdbapi.com/?apikey=973e914e&s=${searchText}`).then(
-//       function (data) {
-//         console.log(data);
-//         displayMatches(data.Search);
-//         searchInput.val("");
-//       }
-//     );
-//   }
-// }
-
 function init() {
   // searchInput.keydown(getArtists);
   searchButton.click(getArtists);
+  clearButton.click(clearPreviousSearch);
   console.log("start point");
+
   
 }
 
 init();
 
-// Cards section:
-// h2 heading - Top Tracks:
-// Cards to display song name, album name and album image
