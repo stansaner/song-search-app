@@ -10,6 +10,16 @@ var searchButton = $(".search-button");
 var jumbotron = $("#display-artist");
 var displayCards = $("#display-songs");
 var songHeading = $(".song-heading");
+var localStorageArray = [];
+var searchHistorySection = $('#search-history')
+
+
+// Adding the option to clear search history
+function clearPreviousSearch() {
+  localStorage.removeItem('artist');
+  searchHistory.empty();
+}
+
 
 // This function will bring up a QR code which will link to a google search
 // of the artist as per user input
@@ -120,12 +130,80 @@ function getTracks(id, token, artistName) {
     });
 }
 
+
+// Function to add search input to local storage
+function addToSearchHistory(artist) {
+  var searchHistory = searchInput.val(); // Getting the searched artist from the search input
+
+  if (searchHistory == '') {
+    return;
+  }
+
+  //If search input is already in the array, don't add again
+  //Without this we get duplicate results
+  if (localStorageArray.indexOf(searchHistory) > -1) {
+    return;
+  }
+  console.log('check if adding artist', searchHistory);
+  // Checking to see if the searched artist is already stored in localStorage
+  // Object {Key: artist, Value: search input string}
+  if (localStorage.getItem('artist') == null) {
+    localStorageArray.push(searchHistory); //pushing searched term into the array
+  } else {
+    localStorageArray = JSON.parse(localStorage.getItem('artist'));
+
+    //Checking if keyword doesn't already exist in array, if not then pushing it through
+    if(localStorageArray.indexOf(searchHistory) === -1) {
+      localStorageArray.push(searchHistory);
+    }
+  }
+
+  //Adding the searched term as a button in search history
+  searchHistorySection.append(`
+  <button data-artist="${artist}" type="button" class="artist-search btn btn-secondary btn-block">${artist}</button>
+  `);
+
+  //Stringifying searched terms array into a string
+  localStorage.setItem('artist', JSON.stringify(localStorageArray));
+}
+
+function getPreviouslySearchedTermsFromLocalStorage() {
+  //If statement to check whether array already exists in localStorage, if it does, then parse it back into an array
+  if (localStorage.getItem('artist') != null) {
+      localStorageArray = JSON.parse(localStorage.getItem('artist'));
+
+      //Using a for loop to add all previous searched terms as buttons
+      for (var i = 0; i < localStorageArray.length; i++) {
+          var singer = localStorageArray[i];
+
+          searchHistorySection.append(`
+              <button data-artist="${singer}" type="button" class="artist-history btn btn-secondary btn-block">${singer}</button>
+          `)
+      }
+  }
+  attachClickEventToPreviousSearchButtons();
+};
+
+//Creating click event for all search history buttons inside #history div
+function attachClickEventToPreviousSearchButtons() {
+  $('#history button').on('click', function () {
+      searchInput.val($(this).data('artist')); //repopulating searchInput using data-location attribute
+
+      //Removing and adding classes to change the highlighted button colours when selected
+      $('#history button').removeClass('btn-info').addClass('btn-secondary');
+      $(this).removeClass('btn-secondary').addClass('btn-info');
+      getArtists();
+  });
+}
+
+
 // 2 step process
 // Step 1: obtain artist id
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event) {
   var artist = "";
+
 
   // var keyCode = event.keyCode;
   console.log("event", event);
@@ -172,6 +250,7 @@ function getArtists(event) {
           </div>
           `);
 
+          addToSearchHistory(artist);
           getTracks(artistNameID, token, artist);
         });
     });
@@ -200,6 +279,7 @@ function init() {
   // searchInput.keydown(getArtists);
   searchButton.click(getArtists);
   console.log("start point");
+  
 }
 
 init();
