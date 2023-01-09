@@ -119,8 +119,8 @@ function getTracks(id, token, artistName) {
           <div class="card-body">
             <h3>${trackName}</h3>
             <p>Album: ${trackAlbum}</p>
-            <a class="btn btn-primary" href="${previewURL}" target="_blank">Preview Song</a>
-            <a class="btn btn-primary" href="${fullSong}" target="_blank"> Listen on Spotify</a>
+            <a class="btn btn-dark" href="${previewURL}" target="_blank">Preview Song</a>
+            <a class="btn btn-dark" href="${fullSong}" target="_blank"> Listen on Spotify</a>
           </div>
         </div> 
         `);
@@ -162,7 +162,7 @@ function addToSearchHistory(artist) {
 
   //Adding the searched term as a button in search history
   searchHistorySection.append(`
-  <button data-artist="${artist}" type="button" class="artist-search btn btn-secondary btn-block">${artist}</button>
+  <button data-artist="${artist}" type="button" class="artist-search btn btn-dark btn-block">${artist}</button>
   `);
 
   //Stringifying searched terms array into a string
@@ -179,7 +179,7 @@ function getPreviouslySearchedTermsFromLocalStorage() {
           var singer = localStorageArray[i];
 
           searchHistorySection.append(`
-              <button data-artist="${singer}" type="button" class="artist-history btn btn-secondary btn-block">${singer}</button>
+              <button data-artist="${singer}" type="button" class="artist-history btn btn-dark btn-block">${singer}</button>
           `)
       }
   }
@@ -188,12 +188,12 @@ function getPreviouslySearchedTermsFromLocalStorage() {
 
 //Creating click event for all search history buttons inside #history div
 function attachClickEventToPreviousSearchButtons() {
-  $('#history button').on('click', function () {
+  $('#clear-button').on('click', function () {
       searchInput.val($(this).data('artist')); //repopulating searchInput using data-location attribute
 
       //Removing and adding classes to change the highlighted button colours when selected
-      $('#history button').removeClass('btn-info').addClass('btn-secondary');
-      $(this).removeClass('btn-secondary').addClass('btn-info');
+      $('#clear-button').removeClass('btn-info').addClass('btn-dark');
+      $(this).removeClass('btn-dark').addClass('btn-info');
       getArtists();
   });
 }
