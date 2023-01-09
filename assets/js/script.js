@@ -9,6 +9,7 @@ var searchInput = $(".form-input");
 var searchButton = $(".search-button");
 var jumbotron = $("#display-artist");
 var displayCards = $("#display-songs");
+var songHeading = $(".song-heading");
 
 // This function will bring up a QR code which will link to a google search
 // of the artist as per user input
@@ -23,11 +24,11 @@ function getQRCode(artistName) {
     success: function (result) {
       // console.log("test", result);
 
-      var mainBody = $("body");
+      var qrCode = $(".qr-code");
 
-      mainBody.append(`
-            <div>
-                <h3>QR CODE</h3>
+      qrCode.append(`
+            <div class="flex">
+                <h3 class="display-4">QR code</h3>
                
                <p><img src="data:image/png;base64,${result}" alt="QR code" /></p>
                
@@ -60,7 +61,7 @@ function getAccessToken() {
 // using the artist id to get the top tracks
 function getTracks(id, token, artistName) {
   var artistID = id;
-  displayCards.html('');
+  displayCards.html("");
   fetch(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?market=GB`, {
     method: "GET",
     headers: {
@@ -74,10 +75,10 @@ function getTracks(id, token, artistName) {
     .then(function (data) {
       console.log("get tracks", data);
 
-      displayCards.append(`
+      songHeading.prepend(`
+     
       <h3 class="d-flex flex-wrap">Top Tracks</h3>
-      <div class="display-songs d-flex flex row">
-      </div>
+
       `);
 
       // For loop starts here:
@@ -101,7 +102,7 @@ function getTracks(id, token, artistName) {
         console.log("full song", fullSong);
 
         displayCards.append(`
-        <div class="container-card card shadow=lg p-3 rb-5 rounded"
+        <div class="container-card card shadow=lg p-3 rb-5 rounded col-3"
           <div class="song-card row">
           <img class="song-image card-img-top" src="${trackImage}">
           <div class="card-body">
@@ -113,7 +114,6 @@ function getTracks(id, token, artistName) {
         </div> 
         `);
       }
-
 
       getQRCode(artistName);
       return data;
@@ -131,7 +131,7 @@ function getArtists(event) {
   console.log("event", event);
   var artist = searchInput.val().trim();
   console.log("search input", artist);
-  jumbotron.html('');
+  jumbotron.html("");
 
   if (artist) {
     getAccessToken().then((token) => {
@@ -161,11 +161,13 @@ function getArtists(event) {
 
           //Add artist name, genre and image in jumbotron
           jumbotron.append(`
-          <div class="mt-3 jumbotron jumbotron-fluid p-4">
-            <div class="container">
+          <div class="mt-3 jumbotron jumbotron-fluid p-4 col-12 flex row">
+            <div class="col-6">
               <h1 class="display-4 row">${artist}</h1>
-              <img class="row artist-image" src=${artistImage}>
+              <p><img class="row artist-image" src=${artistImage}></p>
               <p class="row artist-genre">${genre}</p>
+            </div>
+            <div class="qr-code col-6">
             </div>
           </div>
           `);
