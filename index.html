@@ -48,10 +48,9 @@
             </div>
           </form>
           <!-- Clear search history button -->
-          <!-- If we want to keep this we just need to unhide once we have set up a function to clear search history -->
-          <!-- <button type="button" class="btn btn-primary clear-button button-block" id="clear-button" aria-label="clear search" [enter function here: onlick="functionName()"]>
+          <button type="button" class="btn btn-primary clear-button button-block" id="clear-button" aria-label="clear search" [enter function here: onlick="clearPreviousSearch()"]>
                     Clear Search
-                </button> -->
+            </button>
           <div class="list-group" id="search-history"></div>
         </aside>
 
@@ -63,7 +62,7 @@
           ></section>
           <section class="mt-3 song-heading" aria-live="polite">
             <div
-              class="display-songs d-flex flex row space-around"
+              class="display-songs d-flex flex row"
               id="display-songs"
             ></div>
           </section>
