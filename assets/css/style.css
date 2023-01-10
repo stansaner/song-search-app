@@ -46,17 +46,39 @@ input {
   font-size: 14px;
   padding-left: 13px;
 }
+
+.clear-button{
+  height: 35px;
+  border-radius: 15px;
+}
+
+.artist-history {
+  height: 35px;
+  border-radius: 15px;
+}
+
+.artist-genre {
+  font-size: 23px;
+}
+
+/* .qr-code {
+  align-items: center;
+  height: 50px;
+  width: 50px;
+} */
+
+.qr-text{
+  font-size: 15px;
+}
+
 .display-songs {
   justify-content: space-around;
 }
 
 .song-card {
-  /* background-position: center;
-    background-size: cover; */
   background-repeat: no-repeat;
-  /* height: 200px;
-    width: 200px; */
 }
+
 .container-card {
   margin-right: 15px;
   margin-bottom: 15px;
@@ -64,4 +86,7 @@ input {
 
 .card-body .btn {
   margin-bottom: 15px;
+  height: 35px;
+  border-radius: 15px;
+  font-size: 15px;
 }
