@@ -65,6 +65,23 @@ function getAccessToken() {
     });
 }
 
+function showSongPreview() {
+  var btn = $(this);
+  var previewURL = btn.data("song");
+
+  $(".modal-body").html(`
+  <audio src="${previewURL}" controls></audio>
+  `);
+
+  $("#previewModal").modal({
+    show: true,
+  });
+}
+
+function clearModal() {
+  $(".modal-body").empty();
+}
+
 // using the artist id to get the top tracks
 function getTracks(id, token, artistName) {
   var artistID = id;
@@ -122,12 +139,14 @@ function getTracks(id, token, artistName) {
             <h4>${trackName}</h4>
             <p>${trackDur}</p>
             <p><b>Album:</b> ${trackAlbum}</p>        
-            <a class="btn btn-dark" href="${previewURL}" target="_blank">Preview Song</a>
-            <a class="btn btn-dark" href="${fullSong}" target="_blank"> Listen on Spotify</a>
+            <a class="preview-btn btn btn-dark" data-song="${previewURL}">Preview Song</a>
+            <a class="fullSong-btn btn btn-dark" href="${fullSong}" target="_blank"> Listen on Spotify</a>
           </div>
         </div> 
         `);
       }
+
+      // <a class="preview-btn btn btn-dark" data-song="${previewURL}" href="${previewURL}">Preview Song</a>
 
       getQRCode(artistName);
       return data;
@@ -204,9 +223,7 @@ function recallArtist() {
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event) {
-  
   // var keyCode = event.keyCode;
-  
 
   // console.log("event", Object.keys(event.keyCode));
   var artist = searchInput.val().trim();
@@ -228,10 +245,10 @@ function getArtists(event) {
   // if (keyCode === 13 || artist) {
   // if (!keyCode === 13 || !artist) {
   // var shouldRun = false;
-  
+
   // if (keyCode === 13 && artist) {
   //   shouldRun = true;
-  // } 
+  // }
 
   // if (artist) {
   //   shouldRun = true;
@@ -239,8 +256,7 @@ function getArtists(event) {
 
   // if(shouldRun) {
 
-
-  if (artist && (tag === 'INPUT' && event.keyCode === 13) || tag === 'BUTTON') {
+  if ((artist && tag === "INPUT" && event.keyCode === 13) || tag === "BUTTON") {
     event.preventDefault();
     getAccessToken().then((token) => {
       fetch(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
@@ -285,7 +301,7 @@ function getArtists(event) {
 
           addToSearchHistory(artist);
           getTracks(artistNameID, token, artist);
-          searchInput.val('');
+          searchInput.val("");
         });
     });
   }
@@ -308,6 +324,10 @@ function init() {
 
   clearButton.click(clearPreviousSearch);
   searchHistorySection.click(recallArtist);
+
+  $(".display-songs").on("click", ".preview-btn", showSongPreview);
+
+  $(".modal button").click(clearModal);
 
   console.log("start point");
 }
