@@ -68,7 +68,7 @@ function getAccessToken() {
 // using the artist id to get the top tracks
 function getTracks(id, token, artistName) {
   var artistID = id;
-  displayCards.html("");
+  // displayCards.html("");
   fetch(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?market=GB`, {
     method: "GET",
     headers: {
@@ -90,6 +90,7 @@ function getTracks(id, token, artistName) {
       // For loop starts here:
       var trackArray = data.tracks;
       // console.log('track array', trackArray);
+      displayCards.html("");
 
       for (var track = 0; track < trackArray.length; track++) {
         var trackImage = data.tracks[track].album.images[0].url;
@@ -204,12 +205,27 @@ function recallArtist() {
 // this will allow us to grab the artist id
 function getArtists(event) {
   var artist = "";
-
   // var keyCode = event.keyCode;
+  // event.preventDefault();
+
   console.log("event", event);
   var artist = searchInput.val().trim();
   console.log("search input", artist);
   jumbotron.html("");
+
+  // if (keyCode === 13 || artist) {
+  // if (!keyCode === 13 || !artist) {
+  // var shouldRun = false;
+  
+  // if (keyCode === 13 && artist) {
+  //   shouldRun = true;
+  // } 
+
+  // if (artist) {
+  //   shouldRun = true;
+  // }
+
+  // if(shouldRun) {
 
   if (artist) {
     getAccessToken().then((token) => {
@@ -263,8 +279,21 @@ function getArtists(event) {
 function init() {
   // searchInput.keydown(getArtists);
   searchButton.click(getArtists);
+  // searchButton.click(function (event) {
+  //   event.preventDefault();
+  //   getArtists();
+  // });
+
+  // searchInput.keydown(getArtists);
+  // searchInput.keypress(function (event) {
+  //   if (event.which == '13') {
+  //       event.preventDefault();
+  //       getArtists();
+  //   });
+
   clearButton.click(clearPreviousSearch);
   searchHistorySection.click(recallArtist);
+
   console.log("start point");
 }
 
