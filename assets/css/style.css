@@ -69,8 +69,12 @@ input {
 
 .artist-genre {
   font-size: 23px;
+  text-transform: capitalize;
 }
-
+.artist-image {
+  max-width: 300px;
+  max-height: 300px;
+}
 /* .qr-code {
   align-items: center;
   height: 50px;
@@ -99,4 +103,5 @@ input {
   height: 35px;
   border-radius: 15px;
   font-size: 15px;
+  min-width: 145px;
 }
