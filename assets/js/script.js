@@ -36,9 +36,9 @@ function getQRCode(artistName) {
       var qrCode = $(".qr-code");
       qrCode.html(""); //clear qrCode just before we append it
       qrCode.append(`
-            <div class="flex align-items-center">
-               <p class="qr-code"><img src="data:image/png;base64,${result}" alt="QR code" /></p>
-               <p class="qr-text text-center">Scan for more info about ${artistName}</p>
+            <div class="flex qr-image text-center">
+               <p><img src="data:image/png;base64,${result}" alt="QR code" /></p>
+               <p class="qr-text">Scan for more info about ${artistName}</p>
             </div> 
             `);
     },

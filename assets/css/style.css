@@ -75,14 +75,15 @@ input {
   max-width: 300px;
   max-height: 300px;
 }
-/* .qr-code {
-  align-items: center;
-  height: 50px;
-  width: 50px;
-} */
+
+.qr-image {
+  /* height: 50px;
+  width: 50px; */
+  margin-top: 80px;
+} 
 
 .qr-text {
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .display-songs {
