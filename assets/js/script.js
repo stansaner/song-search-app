@@ -115,7 +115,7 @@ function getTracks(id, token, artistName) {
         console.log("full song", fullSong);
 
         displayCards.append(`
-        <div class="container-card card shadow=lg p-3 rb-5 rounded col-3"
+        <div class="container-card card shadow=lg rounded"
           <div class="song-card row">
           <img class="song-image card-img-top" src="${trackImage}">
           <div class="card-body">
@@ -204,12 +204,24 @@ function recallArtist() {
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event) {
-  var artist = "";
+  
   // var keyCode = event.keyCode;
-  // event.preventDefault();
+  
 
-  console.log("event", event);
+  // console.log("event", Object.keys(event.keyCode));
   var artist = searchInput.val().trim();
+
+  var tag = event.target.tagName;
+  console.log(tag, event.keyCode);
+  // var shouldRun = false;
+  // if (artist && el === 'BUTTON') {
+  //   shouldRun = true;
+  // }
+
+  // if (artist && el === 'INPUT') {
+
+  // }
+
   console.log("search input", artist);
   jumbotron.html("");
 
@@ -227,7 +239,9 @@ function getArtists(event) {
 
   // if(shouldRun) {
 
-  if (artist) {
+
+  if (artist && (tag === 'INPUT' && event.keyCode === 13) || tag === 'BUTTON') {
+    event.preventDefault();
     getAccessToken().then((token) => {
       fetch(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
         method: "GET",
@@ -271,6 +285,7 @@ function getArtists(event) {
 
           addToSearchHistory(artist);
           getTracks(artistNameID, token, artist);
+          searchInput.val('');
         });
     });
   }
@@ -284,7 +299,7 @@ function init() {
   //   getArtists();
   // });
 
-  // searchInput.keydown(getArtists);
+  searchInput.keydown(getArtists);
   // searchInput.keypress(function (event) {
   //   if (event.which == '13') {
   //       event.preventDefault();
