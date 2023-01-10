@@ -38,7 +38,7 @@ function getQRCode(artistName) {
       qrCode.append(`
             <div class="flex qr-image text-center">
                <p><img src="data:image/png;base64,${result}" alt="QR code" /></p>
-               <p class="qr-text">Scan for more info about ${artistName}</p>
+               <p class="qr-text">Scan for more info about <span class="qr-span">${artistName}</span></p>
             </div> 
             `);
     },

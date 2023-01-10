@@ -12,7 +12,6 @@ body {
 
 /* CUSTOM STYLES */
 .spotify-header {
-  /* background-color: #1DB954; */
   background-color: #191414;
 }
 
@@ -28,6 +27,10 @@ body {
   font-size: 16px;
 }
 
+.form-inline {
+  flex: none;
+}
+
 .search-button {
   height: 35px;
   border-radius: 15px;
@@ -35,7 +38,7 @@ body {
 }
 
 input {
-  height: 32px;
+  height: 35px;
   padding: 8px;
   border-radius: 15px;
   border-color: #d3d3d3;
@@ -52,12 +55,9 @@ input {
   border-radius: 15px;
 }
 
-/* .capitalize {
-  text-transform: capitalize;
-} */
-
 .artist-search,
-.artist-heading {
+.artist-heading,
+.qr-span {
   text-transform: capitalize;
 }
 
@@ -77,8 +77,6 @@ input {
 }
 
 .qr-image {
-  /* height: 50px;
-  width: 50px; */
   margin-top: 80px;
 } 
 
@@ -95,14 +93,11 @@ input {
 .card {
   flex: 1;
 }
+
 .song-card {
   background-repeat: no-repeat;
 }
 
-/* .container-card {
-  margin-right: 15px;
-  margin-bottom: 15px;
-} */
 
 .card-body .btn {
   margin-bottom: 15px;
