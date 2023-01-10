@@ -87,17 +87,22 @@ input {
 }
 
 .display-songs {
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 10px;
 }
-
+.card {
+  flex: 1;
+}
 .song-card {
   background-repeat: no-repeat;
 }
 
-.container-card {
+/* .container-card {
   margin-right: 15px;
   margin-bottom: 15px;
-}
+} */
 
 .card-body .btn {
   margin-bottom: 15px;
