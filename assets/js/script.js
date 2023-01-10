@@ -31,7 +31,6 @@ function getQRCode(artistName) {
     headers: { "X-Api-Key": "ZdYI+Lj/vMMSzi+ktewh/w==89dSZH02W3eHyFfr" },
     contentType: "application/json",
     success: function (result) {
-      // console.log("test", result);
 
       var qrCode = $(".qr-code");
       qrCode.html(""); //clear qrCode just before we append it
@@ -65,6 +64,7 @@ function getAccessToken() {
     });
 }
 
+// Adding function to display modal when 'preview song' button is clicked
 function showSongPreview() {
   var btn = $(this);
   var previewURL = btn.data("song");
@@ -78,6 +78,7 @@ function showSongPreview() {
   });
 }
 
+// This will clear modal when closed by user to stop the song from continuing to play
 function clearModal() {
   $(".modal-body").empty();
 }
@@ -85,7 +86,6 @@ function clearModal() {
 // using the artist id to get the top tracks
 function getTracks(id, token, artistName) {
   var artistID = id;
-  // displayCards.html("");
   fetch(`https://api.spotify.com/v1/artists/${artistID}/top-tracks?market=GB`, {
     method: "GET",
     headers: {
@@ -99,37 +99,24 @@ function getTracks(id, token, artistName) {
     .then(function (data) {
       console.log("get tracks", data);
 
-      // songHeading.prepend(`
-
-      // <h3 class="d-flex flex-wrap">Top Tracks</h3>
-
-      // `);
       // For loop starts here:
       var trackArray = data.tracks;
-      // console.log('track array', trackArray);
       displayCards.html("");
 
       for (var track = 0; track < trackArray.length; track++) {
+
         var trackImage = data.tracks[track].album.images[0].url;
-        console.log("get image", data.tracks[track].album.images[1]);
-
         var trackAlbum = data.tracks[track].album.name;
-        console.log("album name", data.tracks[track].album.name);
-
         var trackName = data.tracks[track].name;
-        console.log("song name", data.tracks[track].name);
+
         // Added in track duration
         var trackDuration = data.tracks[track].duration_ms;
-        console.log("duration", data.tracks[track].duration_ms);
         var trackDur = moment("2000-01-01 00:00:00")
           .add(moment.duration(trackDuration))
           .format("m:ss");
 
         var previewURL = data.tracks[track].preview_url;
-        console.log("song id", data.tracks[track].preview_url);
-
         var fullSong = data.tracks[track].uri;
-        console.log("full song", fullSong);
 
         displayCards.append(`
         <div class="container-card card shadow=lg rounded"
@@ -145,8 +132,6 @@ function getTracks(id, token, artistName) {
         </div> 
         `);
       }
-
-      // <a class="preview-btn btn btn-dark" data-song="${previewURL}" href="${previewURL}">Preview Song</a>
 
       getQRCode(artistName);
       return data;
@@ -223,39 +208,11 @@ function recallArtist() {
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event) {
-  // var keyCode = event.keyCode;
-
-  // console.log("event", Object.keys(event.keyCode));
   var artist = searchInput.val().trim();
-
   var tag = event.target.tagName;
-  console.log(tag, event.keyCode);
-  // var shouldRun = false;
-  // if (artist && el === 'BUTTON') {
-  //   shouldRun = true;
-  // }
 
-  // if (artist && el === 'INPUT') {
-
-  // }
-
-  console.log("search input", artist);
-  jumbotron.html("");
-
-  // if (keyCode === 13 || artist) {
-  // if (!keyCode === 13 || !artist) {
-  // var shouldRun = false;
-
-  // if (keyCode === 13 && artist) {
-  //   shouldRun = true;
-  // }
-
-  // if (artist) {
-  //   shouldRun = true;
-  // }
-
-  // if(shouldRun) {
-
+  // checking for empty input and the event (search button click and enter keypress)
+  // if true, get data for artists
   if ((artist && tag === "INPUT" && event.keyCode === 13) || tag === "BUTTON") {
     event.preventDefault();
     getAccessToken().then((token) => {
@@ -270,18 +227,11 @@ function getArtists(event) {
           return response.json();
         })
         .then(function (data) {
-          console.log("get artists", data);
-
-          console.log("id", data.artists.items[0].id);
+          // Only picking first match of returned data
+          // i.e index[0] of the array of returned data
           var artistNameID = data.artists.items[0].id;
-
-          console.log("name", data.artists.items[0].name);
-
           var artistImage = data.artists.items[0].images[1].url;
-          console.log("artist image", artistImage);
-
           var genre = data.artists.items[0].genres[0];
-          console.log("genre", genre);
           jumbotron.html(""); //clear jumbo just before we append it
           //Add artist name, genre and image in jumbotron
           jumbotron.append(`
@@ -308,25 +258,11 @@ function getArtists(event) {
 }
 
 function init() {
-  // searchInput.keydown(getArtists);
   searchButton.click(getArtists);
-  // searchButton.click(function (event) {
-  //   event.preventDefault();
-  //   getArtists();
-  // });
-
   searchInput.keydown(getArtists);
-  // searchInput.keypress(function (event) {
-  //   if (event.which == '13') {
-  //       event.preventDefault();
-  //       getArtists();
-  //   });
-
   clearButton.click(clearPreviousSearch);
   searchHistorySection.click(recallArtist);
-
   $(".display-songs").on("click", ".preview-btn", showSongPreview);
-
   $(".modal button").click(clearModal);
 
   console.log("start point");
