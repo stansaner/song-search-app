@@ -47,14 +47,24 @@ input {
   padding-left: 13px;
 }
 
-.clear-button{
+.clear-button {
   height: 35px;
   border-radius: 15px;
+}
+
+/* .capitalize {
+  text-transform: capitalize;
+} */
+
+.artist-search,
+.artist-heading {
+  text-transform: capitalize;
 }
 
 .artist-history {
   height: 35px;
   border-radius: 15px;
+  text-transform: capitalize;
 }
 
 .artist-genre {
@@ -67,7 +77,7 @@ input {
   width: 50px;
 } */
 
-.qr-text{
+.qr-text {
   font-size: 15px;
 }
 

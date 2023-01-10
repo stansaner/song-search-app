@@ -11,16 +11,14 @@ var jumbotron = $("#display-artist");
 var displayCards = $("#display-songs");
 var songHeading = $(".song-heading");
 var localStorageArray = [];
-var searchHistorySection = $('#search-history');
-var clearButton = $('#clear-button');
-
+var searchHistorySection = $("#search-history");
+var clearButton = $("#clear-button");
 
 // Adding the option to clear search history
 function clearPreviousSearch() {
-  localStorage.removeItem('artist');
+  localStorage.removeItem("artist");
   searchHistorySection.empty();
 }
-
 
 // This function will bring up a QR code which will link to a google search
 // of the artist as per user input
@@ -36,7 +34,7 @@ function getQRCode(artistName) {
       // console.log("test", result);
 
       var qrCode = $(".qr-code");
-
+      qrCode.html(""); //clear qrCode just before we append it
       qrCode.append(`
             <div class="flex align-items-center">
                <p class="qr-code"><img src="data:image/png;base64,${result}" alt="QR code" /></p>
@@ -84,9 +82,8 @@ function getTracks(id, token, artistName) {
     .then(function (data) {
       console.log("get tracks", data);
 
-      
       // songHeading.prepend(`
-     
+
       // <h3 class="d-flex flex-wrap">Top Tracks</h3>
 
       // `);
@@ -129,12 +126,11 @@ function getTracks(id, token, artistName) {
     });
 }
 
-
 // Function to add search input to local storage
 function addToSearchHistory(artist) {
   var searchHistory = searchInput.val().toLowerCase().trim(); // Getting the searched artist from the search input
 
-  if (searchHistory == '') {
+  if (searchHistory == "") {
     return;
   }
 
@@ -143,17 +139,16 @@ function addToSearchHistory(artist) {
   if (localStorageArray.indexOf(searchHistory) > -1) {
     return;
   }
-  console.log('check if adding artist', searchHistory);
+  console.log("check if adding artist", searchHistory);
   // Checking to see if the searched artist is already stored in localStorage
   // Object {Key: artist, Value: search input string}
-  if (localStorage.getItem('artist') == null) {
+  if (localStorage.getItem("artist") == null) {
     localStorageArray.push(searchHistory); //pushing searched term into the array
-
   } else {
-    localStorageArray = JSON.parse(localStorage.getItem('artist'));
+    localStorageArray = JSON.parse(localStorage.getItem("artist"));
 
     //Checking if keyword doesn't already exist in array, if not then pushing it through
-    if(localStorageArray.indexOf(searchHistory) === -1) {
+    if (localStorageArray.indexOf(searchHistory) === -1) {
       localStorageArray.push(searchHistory);
     }
   }
@@ -164,39 +159,37 @@ function addToSearchHistory(artist) {
   `);
 
   //Stringifying searched terms array into a string
-  localStorage.setItem('artist', JSON.stringify(localStorageArray));
+  localStorage.setItem("artist", JSON.stringify(localStorageArray));
 }
 
 function getPreviouslySearchedTermsFromLocalStorage() {
   //If statement to check whether array already exists in localStorage, if it does, then parse it back into an array
-  if (localStorage.getItem('artist') != null) {
-      localStorageArray = JSON.parse(localStorage.getItem('artist'));
+  if (localStorage.getItem("artist") != null) {
+    localStorageArray = JSON.parse(localStorage.getItem("artist"));
 
-      //Using a for loop to add all previous searched terms as buttons
-      for (var i = 0; i < localStorageArray.length; i++) {
-          var singer = localStorageArray[i];
+    //Using a for loop to add all previous searched terms as buttons
+    for (var i = 0; i < localStorageArray.length; i++) {
+      var singer = localStorageArray[i];
 
-          searchHistorySection.append(`
+      searchHistorySection.append(`
               <button data-artist="${singer}" type="button" class="artist-history btn btn-dark btn-block">${singer}</button>
-          `)
-      }
+          `);
+    }
   }
   recallArtist();
-};
+}
 
 //Creating click event for all search history buttons inside #history div
 function recallArtist() {
-  $('.artist-history').on('click', function () {
-      searchInput.val($(this).data('artist')); //repopulating searchInput using data-location attribute
+  $(".artist-history").on("click", function () {
+    searchInput.val($(this).data("artist")); //repopulating searchInput using data-location attribute
 
-      //Removing and adding classes to change the highlighted button colours when selected
-      $('.artist-history').removeClass('btn-info').addClass('btn-dark');
-      $(this).removeClass('btn-dark').addClass('btn-info');
-      getArtists();
+    //Removing and adding classes to change the highlighted button colours when selected
+    $(".artist-history").removeClass("btn-info").addClass("btn-dark");
+    $(this).removeClass("btn-dark").addClass("btn-info");
+    getArtists();
   });
 }
-
-
 
 // 2 step process
 // Step 1: obtain artist id
@@ -204,7 +197,6 @@ function recallArtist() {
 // this will allow us to grab the artist id
 function getArtists(event) {
   var artist = "";
-
 
   // var keyCode = event.keyCode;
   console.log("event", event);
@@ -237,12 +229,12 @@ function getArtists(event) {
 
           var genre = data.artists.items[0].genres[0];
           console.log("genre", genre);
-
+          jumbotron.html(""); //clear jumbo just before we append it
           //Add artist name, genre and image in jumbotron
           jumbotron.append(`
           <div class="mt-3 jumbotron jumbotron-fluid p-4 col-12 flex row">
             <div class="col-6">
-              <h1 class="display-4 row">${artist}</h1>
+              <h1 class="display-4 artist-heading row">${artist}</h1>
               <p><img class="row artist-image" src=${artistImage}></p>
               <p class="row artist-genre">${genre}</p>
             </div>
@@ -267,9 +259,6 @@ function init() {
   clearButton.click(clearPreviousSearch);
   searchHistorySection.click(recallArtist);
   console.log("start point");
-
-  
 }
 
 init();
-
