@@ -92,7 +92,7 @@ function getTracks(id, token, artistName) {
       // console.log('track array', trackArray);
 
       for (var track = 0; track < trackArray.length; track++) {
-        var trackImage = data.tracks[track].album.images[1].url;
+        var trackImage = data.tracks[track].album.images[0].url;
         console.log("get image", data.tracks[track].album.images[1]);
 
         var trackAlbum = data.tracks[track].album.name;
@@ -100,6 +100,12 @@ function getTracks(id, token, artistName) {
 
         var trackName = data.tracks[track].name;
         console.log("song name", data.tracks[track].name);
+        // Added in track duration
+        var trackDuration = data.tracks[track].duration_ms;
+        console.log("duration", data.tracks[track].duration_ms);
+        var trackDur = moment("2000-01-01 00:00:00")
+          .add(moment.duration(trackDuration))
+          .format("m:ss");
 
         var previewURL = data.tracks[track].preview_url;
         console.log("song id", data.tracks[track].preview_url);
@@ -112,8 +118,9 @@ function getTracks(id, token, artistName) {
           <div class="song-card row">
           <img class="song-image card-img-top" src="${trackImage}">
           <div class="card-body">
-            <h3>${trackName}</h3>
-            <p>Album: ${trackAlbum}</p>
+            <h4>${trackName}</h4>
+            <p>${trackDur}</p>
+            <p><b>Album:</b> ${trackAlbum}</p>        
             <a class="btn btn-dark" href="${previewURL}" target="_blank">Preview Song</a>
             <a class="btn btn-dark" href="${fullSong}" target="_blank"> Listen on Spotify</a>
           </div>
@@ -242,7 +249,7 @@ function getArtists(event) {
             </div>
           </div>
           <div>
-            <h3 class="d-flex flex-wrap">Top Tracks</h3>
+            <h5 class="d-flex flex-wrap">Top Tracks</h5>
           </div>
           `);
 
