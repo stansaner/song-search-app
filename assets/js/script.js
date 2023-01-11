@@ -186,33 +186,48 @@ function getPreviouslySearchedTermsFromLocalStorage() {
           `);
     }
   }
-  recallArtist();
+  // recallArtist();
 }
 
 //Creating click event for all search history buttons inside #history div
 function recallArtist() {
-  $(".artist-history").on("click", function () {
-    searchInput.val($(this).data("artist")); //repopulating searchInput using data-location attribute
+  // $(".artist-history").on("click", function (event) {
+  //   searchInput.val($(this).data("artist")); //repopulating searchInput using data-location attribute
 
+  //   console.log('event', event);
+  //   //Removing and adding classes to change the highlighted button colours when selected
+  //   $(".artist-history").removeClass("btn-info").addClass("btn-dark");
+  //   $(this).removeClass("btn-dark").addClass("btn-info");
+  //   getArtists();
+  // });
+
+  //repopulating searchInput using data-location attribute
+    var text = $(this).text();
+
+    
     //Removing and adding classes to change the highlighted button colours when selected
     $(".artist-history").removeClass("btn-info").addClass("btn-dark");
     $(this).removeClass("btn-dark").addClass("btn-info");
-    getArtists();
-  });
+    getArtists(text);
 }
+
+
 
 // 2 step process
 // Step 1: obtain artist id
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
-function getArtists(event) {
-  var artist = searchInput.val().trim();
-  var tag = event.target.tagName;
+function getArtists(event_or_text) {
+  var isString = typeof event_or_text === 'string';
+  var artist = isString ? event_or_text : searchInput.val().trim();
+  var tag_or_text = isString ? event_or_text : event_or_text.target.tagName;
 
   // checking for empty input and the event (search button click and enter keypress)
   // if true, get data for artists
-  if ((artist && tag === "INPUT" && event.keyCode === 13) || tag === "BUTTON") {
-    event.preventDefault();
+  if ((artist && tag_or_text === "INPUT" && event_or_text.keyCode === 13) || tag_or_text === "BUTTON" || isString) {
+    if (!isString) {
+      event_or_text.preventDefault();
+    }
     getAccessToken().then((token) => {
       fetch(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
         method: "GET",
@@ -259,7 +274,7 @@ function init() {
   searchButton.click(getArtists);
   searchInput.keydown(getArtists);
   clearButton.click(clearPreviousSearch);
-  searchHistorySection.click(recallArtist);
+  searchHistorySection.on('click', '.artist-history', recallArtist);
   $(".display-songs").on("click", ".preview-btn", showSongPreview);
   $(".modal button").click(clearModal);
   getPreviouslySearchedTermsFromLocalStorage();
