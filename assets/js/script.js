@@ -14,6 +14,12 @@ var localStorageArray = [];
 var searchHistorySection = $("#search-history");
 var clearButton = $("#clear-button");
 
+
+$( document ).ready(function() {
+  console.log( "document loaded" );
+  getPreviouslySearchedTermsFromLocalStorage() 
+});
+
 // Adding the option to clear search history
 function clearPreviousSearch() {
   localStorage.removeItem("artist");
@@ -31,7 +37,6 @@ function getQRCode(artistName) {
     headers: { "X-Api-Key": "ZdYI+Lj/vMMSzi+ktewh/w==89dSZH02W3eHyFfr" },
     contentType: "application/json",
     success: function (result) {
-
       var qrCode = $(".qr-code");
       qrCode.html(""); //clear qrCode just before we append it
       qrCode.append(`
@@ -70,7 +75,7 @@ function showSongPreview() {
   var previewURL = btn.data("song");
 
   $(".modal-body").html(`
-  <audio src="${previewURL}" controls></audio>
+  <audio src="${previewURL}" autoplay controls></audio>
   `);
 
   $("#previewModal").modal({
@@ -104,7 +109,6 @@ function getTracks(id, token, artistName) {
       displayCards.html("");
 
       for (var track = 0; track < trackArray.length; track++) {
-
         var trackImage = data.tracks[track].album.images[0].url;
         var trackAlbum = data.tracks[track].album.name;
         var trackName = data.tracks[track].name;
