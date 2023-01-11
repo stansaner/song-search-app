@@ -82,6 +82,7 @@ input {
 .display-artist {
   margin-left: 30px;
 }
+
 .artist-image {
   max-width: 300px;
   max-height: 300px;
@@ -107,6 +108,10 @@ input {
 
 .song-card {
   background-repeat: no-repeat;
+}
+
+.card-body {
+  text-align: center;
 }
 
 .card-body .btn {
@@ -137,18 +142,27 @@ input {
   }
 }
 
-/* iPads (portrait and landscape) ----------- */
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+
+/* Smartphones (portrait and landscape) ----------- */
+@media (max-width: 768px) {
   /* Styles */
+  /* This will hide the search history in mobile mode */
+  #search-history,
+  .clear-button {
+    display: none;
+  }
   .jumbotron {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 20px;
     column-gap: 10px;
   }
-
+  .display-artist {
+    margin: 0 auto;
+    text-align: center;
+  }
   .qr-image {
-    margin-top: 10px;
+    margin-top: 5px;
   }
   .display-songs {
     display: grid;
@@ -157,3 +171,13 @@ input {
     column-gap: 10px;
   }
 }
+
+
+
+
+
+
+
+
+
+
