@@ -71,6 +71,17 @@ input {
   font-size: 23px;
   text-transform: capitalize;
 }
+/*  Applies grid to jumbotron*/
+.jumbotron {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 10px;
+}
+
+.display-artist {
+  margin-left: 30px;
+}
 .artist-image {
   max-width: 300px;
   max-height: 300px;
@@ -78,7 +89,7 @@ input {
 
 .qr-image {
   margin-top: 80px;
-} 
+}
 
 .qr-text {
   font-size: 18px;
@@ -98,11 +109,51 @@ input {
   background-repeat: no-repeat;
 }
 
-
 .card-body .btn {
   margin-bottom: 15px;
   height: 35px;
   border-radius: 15px;
   font-size: 15px;
   min-width: 145px;
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  /* Styles */
+  .jumbotron {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    column-gap: 10px;
+  }
+
+  .qr-image {
+    margin-top: 5px;
+  }
+  .display-songs {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 0px;
+    column-gap: 10px;
+  }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Styles */
+  .jumbotron {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    column-gap: 10px;
+  }
+
+  .qr-image {
+    margin-top: 10px;
+  }
+  .display-songs {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 0px;
+    column-gap: 10px;
+  }
 }

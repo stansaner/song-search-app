@@ -14,12 +14,6 @@ var localStorageArray = [];
 var searchHistorySection = $("#search-history");
 var clearButton = $("#clear-button");
 
-
-$( document ).ready(function() {
-  console.log( "document loaded" );
-  getPreviouslySearchedTermsFromLocalStorage() 
-});
-
 // Adding the option to clear search history
 function clearPreviousSearch() {
   localStorage.removeItem("artist");
@@ -239,17 +233,17 @@ function getArtists(event) {
           jumbotron.html(""); //clear jumbo just before we append it
           //Add artist name, genre and image in jumbotron
           jumbotron.append(`
-          <div class="mt-3 jumbotron jumbotron-fluid p-4 col-12 flex row">
-            <div class="col-6">
-              <h1 class="display-4 artist-heading row">${artist}</h1>
-              <p><img class="row artist-image" src=${artistImage}></p>
-              <p class="row artist-genre">${genre}</p>
+          <div class="mt-3 jumbotron jumbotron-fluid">
+            <div class="display-artist">
+              <h1 class="display-4 artist-heading ">${artist}</h1>
+              <p><img class="artist-image" src=${artistImage}></p>
+              <p class="artist-genre">${genre}</p>
             </div>
-            <div class="qr-code col-6">
+            <div class="qr-code ">
             </div>
           </div>
           <div>
-            <h5 class="d-flex flex-wrap">Top Tracks</h5>
+            <h3 >Top Tracks</h3>
           </div>
           `);
 
@@ -268,7 +262,7 @@ function init() {
   searchHistorySection.click(recallArtist);
   $(".display-songs").on("click", ".preview-btn", showSongPreview);
   $(".modal button").click(clearModal);
-
+  getPreviouslySearchedTermsFromLocalStorage();
   console.log("start point");
 }
 
