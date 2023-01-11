@@ -242,29 +242,54 @@ function getArtists(event_or_text) {
         .then(function (data) {
           // Only picking first match of returned data
           // i.e index[0] of the array of returned data
-          var artistNameID = data.artists.items[0].id;
-          var artistImage = data.artists.items[0].images[1].url;
-          var genre = data.artists.items[0].genres[0];
-          jumbotron.html(""); //clear jumbo just before we append it
-          //Add artist name, genre and image in jumbotron
-          jumbotron.append(`
-          <div class="mt-3 jumbotron jumbotron-fluid">
-            <div class="display-artist">
-              <h1 class="display-4 artist-heading ">${artist}</h1>
-              <p><img class="artist-image" src=${artistImage}></p>
-              <p class="artist-genre">${genre}</p>
-            </div>
-            <div class="qr-code ">
-            </div>
-          </div>
-          <div>
-            <h3 >Top Tracks</h3>
-          </div>
-          `);
 
-          addToSearchHistory(artist);
-          getTracks(artistNameID, token, artist);
-          searchInput.val("");
+          // If users inputs invalid search not in data, then show no results message
+          if (!data.artists.items.length) {
+            //Print no response text here
+            console.log('not artist', data.artists);
+            jumbotron.html("");
+            jumbotron.append(`
+            <div class="mt-3 jumbotron jumbotron-fluid">
+              <div class="display-artist">
+                <h1 class="display-4 artist-heading ">No Results!</h1>
+              </div>
+            </div>
+            `);
+          } else {
+            var artistNameID = data.artists.items[0].id;
+            console.log('artist result', data.artists);
+            var artistImage = data.artists.items[0].images[1].url;
+            var isGenre = data.artists.items[0].genres.length;
+
+            if (isGenre) {
+              var genre =  data.artists.items[0].genres[0];
+            } else {
+              var genre = '';
+            }
+
+            var matchArtist = data.artists.items[0].name;
+
+            jumbotron.html(""); //clear jumbo just before we append it
+            //Add artist name, genre and image in jumbotron
+            jumbotron.append(`
+            <div class="mt-3 jumbotron jumbotron-fluid">
+              <div class="display-artist">
+                <h1 class="display-4 artist-heading ">${matchArtist}</h1>
+                <p><img class="artist-image" src=${artistImage}></p>
+                <p class="artist-genre">${genre}</p>
+              </div>
+              <div class="qr-code ">
+              </div>
+            </div>
+            <div>
+              <h3 >Top Tracks</h3>
+            </div>
+            `);
+
+            addToSearchHistory(artist);
+            getTracks(artistNameID, token, artist);
+            searchInput.val("");
+          }
         });
     });
   }
