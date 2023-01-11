@@ -191,40 +191,30 @@ function getPreviouslySearchedTermsFromLocalStorage() {
 
 //Creating click event for all search history buttons inside #history div
 function recallArtist() {
-  // $(".artist-history").on("click", function (event) {
-  //   searchInput.val($(this).data("artist")); //repopulating searchInput using data-location attribute
-
-  //   console.log('event', event);
-  //   //Removing and adding classes to change the highlighted button colours when selected
-  //   $(".artist-history").removeClass("btn-info").addClass("btn-dark");
-  //   $(this).removeClass("btn-dark").addClass("btn-info");
-  //   getArtists();
-  // });
-
   //repopulating searchInput using data-location attribute
-    var text = $(this).text();
-
-    
-    //Removing and adding classes to change the highlighted button colours when selected
-    $(".artist-history").removeClass("btn-info").addClass("btn-dark");
-    $(this).removeClass("btn-dark").addClass("btn-info");
-    getArtists(text);
+  var text = $(this).text();
+  //Removing and adding classes to change the highlighted button colours when selected
+  $(".artist-history").removeClass("btn-info").addClass("btn-dark");
+  $(this).removeClass("btn-dark").addClass("btn-info");
+  getArtists(text);
 }
-
-
 
 // 2 step process
 // Step 1: obtain artist id
 // Step 2: use artist id to get top tracks for the searched artist
 // this will allow us to grab the artist id
 function getArtists(event_or_text) {
-  var isString = typeof event_or_text === 'string';
+  var isString = typeof event_or_text === "string";
   var artist = isString ? event_or_text : searchInput.val().trim();
   var tag_or_text = isString ? event_or_text : event_or_text.target.tagName;
 
   // checking for empty input and the event (search button click and enter keypress)
   // if true, get data for artists
-  if ((artist && tag_or_text === "INPUT" && event_or_text.keyCode === 13) || tag_or_text === "BUTTON" || isString) {
+  if (
+    (artist && tag_or_text === "INPUT" && event_or_text.keyCode === 13) ||
+    tag_or_text === "BUTTON" ||
+    isString
+  ) {
     if (!isString) {
       event_or_text.preventDefault();
     }
@@ -246,7 +236,7 @@ function getArtists(event_or_text) {
           // If users inputs invalid search not in data, then show no results message
           if (!data.artists.items.length) {
             //Print no response text here
-            console.log('not artist', data.artists);
+            console.log("not artist", data.artists);
             jumbotron.html("");
             jumbotron.append(`
             <div class="mt-3 jumbotron jumbotron-fluid">
@@ -257,14 +247,14 @@ function getArtists(event_or_text) {
             `);
           } else {
             var artistNameID = data.artists.items[0].id;
-            console.log('artist result', data.artists);
+            console.log("artist result", data.artists);
             var artistImage = data.artists.items[0].images[1].url;
             var isGenre = data.artists.items[0].genres.length;
 
             if (isGenre) {
-              var genre =  data.artists.items[0].genres[0];
+              var genre = data.artists.items[0].genres[0];
             } else {
-              var genre = '';
+              var genre = "";
             }
 
             var matchArtist = data.artists.items[0].name;
@@ -299,7 +289,7 @@ function init() {
   searchButton.click(getArtists);
   searchInput.keydown(getArtists);
   clearButton.click(clearPreviousSearch);
-  searchHistorySection.on('click', '.artist-history', recallArtist);
+  searchHistorySection.on("click", ".artist-history", recallArtist);
   $(".display-songs").on("click", ".preview-btn", showSongPreview);
   $(".modal button").click(clearModal);
   getPreviouslySearchedTermsFromLocalStorage();
