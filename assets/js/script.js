@@ -286,8 +286,8 @@ function getArtists(event_or_text) {
             </div>
             `);
 
-            addToSearchHistory(artist);
-            getTracks(artistNameID, token, artist);
+            addToSearchHistory(matchArtist);
+            getTracks(artistNameID, token, matchArtist);
             searchInput.val("");
           }
         });
